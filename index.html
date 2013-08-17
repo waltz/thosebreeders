@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html> 
   <head>
     <title>thosebreeders</title>
     <style>
@@ -37,9 +37,12 @@
     </div>
     <script src="http://code.jquery.com/jquery.js"></script>
     <script>
-      $.(
-        $('body').fadeOut();
-      );
+      $(function (){
+        	$('body').fadeOut(6000, function(){
+            alert('site is down for construction');
+          });
+	      	
+	})
     </script>
   </body>
 </html>
