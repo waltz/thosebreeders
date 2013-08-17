@@ -13,6 +13,9 @@
       margin-top: 5%;
       text-align: center;
       }
+      #breeder-face{
+        position:fixed;
+      }
     </style>
     <script type="text/javascript">
 
@@ -27,22 +30,53 @@
       })();
 
     </script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/css/bootstrap.min.css"
   </head>
   <body>
     <div id="container">
+      <div id="output pull-left">
+        <span id="x">0</span> : <span id="y">0</span>
+      </div>
+      
       <div id="content">
 	<h1>thosebreeders</h1>
-	<img src="triple-face.png">
+	<img id="breeder-face" src="triple-face.png">
       </div>
     </div>
     <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/js/bootstrap.min.js"></script>
     <script>
-      $(function (){
-        	$('body').fadeOut(6000, function(){
-            alert('site is down for construction');
+      $(document).ready(function(){
+        animateDiv();
+        });
+
+        function makeNewPosition(){
+            
+            // Get viewport dimensions (remove the dimension of the div)
+            var h = $(window).height()-$('#breeder-face').height();
+            var w = $(window).width()-$('#breeder-face').width();
+            
+            var nh = Math.floor(Math.random() * h);
+            var nw = Math.floor(Math.random() * w);
+            
+            return [nh,nw];    
+            
+        }
+
+      function animateDiv(){
+          var newq = makeNewPosition();
+          $('#x').text(newq[0]);
+          $('#y').text(newq[1]);
+          var sum = newq[0]*1000 + newq[1];
+          if (sum > 999999) {sum = sum/10;}
+          if (sum < 99999) {sum = sum*10;}
+          color = '#' + sum.toString();
+          $('body').attr('style', 'background-color:'+color);
+          $('#breeder-face').animate({ top: newq[0], left: newq[1] }, function(){
+            animateDiv();        
           });
-	      	
-	})
+          
+      };
     </script>
   </body>
 </html>
