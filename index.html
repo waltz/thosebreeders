@@ -1,82 +1,62 @@
 <!DOCTYPE html>
 <html> 
-  <head>
-    <title>thosebreeders</title>
-    <style>
-      #container {
-      width: 100%;
-      }
-      #content {
-      width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 5%;
-      text-align: center;
-      }
-      #breeder-face{
-        position:fixed;
-      }
-    </style>
-    <script type="text/javascript">
+    <head>
+        <meta charset="utf-8">
+        <title>Those Breeders</title>
+        <style>
+            h1 {
+                text-align: center;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            }
+            #breeder-face {
+                position: fixed;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="title">Those Breeders</h1>
+        <img id="breeder-face" src="triple-face.png" alt="Those Breeders triple face">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-33520998-1']);
+            _gaq.push(['_trackPageview']);
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-33520998-1']);
-      _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
 
-      (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+            var $window = $(window);
+            var body = $('body');
+            var title = $('#title');
+            var face = $('#breeder-face');
 
-    </script>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/css/bootstrap.min.css"
-  </head>
-  <body>
-    <div id="container">
-      <div id="output pull-left">
-        <span id="x">0</span> : <span id="y">0</span>
-      </div>
-      
-      <div id="content">
-	<h1>thosebreeders</h1>
-	<img id="breeder-face" src="triple-face.png">
-      </div>
-    </div>
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/js/bootstrap.min.js"></script>
-    <script>
-      $(document).ready(function(){
-        animateDiv();
-        });
+            function makeNewPosition() {
+                var maxXPosition = $window.height() - face.height();
+                var maxYPosition = $window.width() - face.width();
 
-        function makeNewPosition(){
-            
-            // Get viewport dimensions (remove the dimension of the div)
-            var h = $(window).height()-$('#breeder-face').height();
-            var w = $(window).width()-$('#breeder-face').width();
-            
-            var nh = Math.floor(Math.random() * h);
-            var nw = Math.floor(Math.random() * w);
-            
-            return [nh,nw];    
-            
-        }
+                var x = Math.floor(Math.random() * maxXPosition);
+                var y = Math.floor(Math.random() * maxYPosition);
 
-      function animateDiv(){
-          var newq = makeNewPosition();
-          $('#x').text(newq[0]);
-          $('#y').text(newq[1]);
-          var sum = newq[0]*1000 + newq[1];
-          if (sum > 999999) {sum = sum/10;}
-          if (sum < 99999) {sum = sum*10;}
-          color = '#' + sum.toString();
-          $('body').attr('style', 'background-color:'+color);
-          $('#breeder-face').animate({ top: newq[0], left: newq[1] }, function(){
-            animateDiv();        
-          });
-          
-      };
-    </script>
-  </body>
+                return {top: x, left: y};
+            }
+
+            function makeNewColor() {
+                return '#' + Math.floor(Math.random() * 16777215).toString(16);
+            }
+
+            function animateDiv() {
+                body.attr('style', 'background-color: ' + makeNewColor());
+                title.attr('style', 'color: ' + makeNewColor());
+                face.animate(makeNewPosition(), animateDiv);
+            }
+
+            $(document).ready(animateDiv);
+        </script>
+    </body>
 </html>
